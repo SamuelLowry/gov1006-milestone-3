@@ -5,6 +5,7 @@
 
 
 ### set working directory and options
+#This wont work for me because of the drop box wackness
 
 rm(list=ls()); gc()
 setwd("~/Dropbox/MP background & focus/replication_materials")
@@ -22,6 +23,8 @@ library(arm)
 
 ### create useful functions
 
+#that do what???
+
 add.top <- function(df, new.level){
   to.add <- data.frame(mean = c(NA,NA, 0), ci.lo = c(NA,NA, 0), ci.hi = c(NA,NA, 0),
                        category = rep("", 3), attribute = rep(df$attribute[1],3),
@@ -36,6 +39,8 @@ add.justify <- function(df){
 
 ## Function to get regression-based AMCE estimates for each attribute level using 
 ## OLS estimator with clustered SEs (Hainmueller, Hopkins and Yammamoto 2014)
+
+#Note to read up on the other literature above
 
 get.amcetab <- function(data, variables, J = 2){    
   Nvar <- length(variables)
@@ -127,7 +132,8 @@ amce.tab <- function(data, variables, multi = F, same.party = F){
   
 }
 
-
+#General note that my ability to understand for loops and nested for loops really needs to be upped. 
+#I am beyond confused by what I just saw above
 
 
 ### Load in Study 2 data 
@@ -157,7 +163,7 @@ effect.label <- "Change in probability of MP being preferred,\n relative to base
 
 
 
-
+#above is just all standard data cleaning. 
 
 ### Figure 3: AMCEs for all attributes
 
@@ -195,6 +201,7 @@ ggsave("figure3.eps", height = 7, width = 8)
 
 long.dat$choicetask <- factor(long.dat$comparison)
 
+#Note to actually look into the math beyond f tests. I know z, t lmnop, but not f. F in the chat. 
 # F-test
 the.xvars <- c("mp.partypos", "mp.localroots", "mp.const", "mp.influence", "mp.policy", "mp.gender")
 for(i in 1:length(the.xvars)){
@@ -287,6 +294,7 @@ wide.dat$mplocalpercent <-  1 - rowMeans(wide.dat[,grep("^local_", names(wide.da
 wide.dat$mpbornbredpercent <-  rowMeans(wide.dat[,grep("^local_", names(wide.dat))]=="<b>grew up and lives in</b> your local area (the area within a 15-20 minute walk from your home)")
 
 # Assign 1-4 depending on MP localism level, then average over the MPs a respondent observes
+#Why not just use nested if elses?
 localscores.df <- wide.dat[,grep("^local_", names(wide.dat))]
 for(j in 1:ncol(localscores.df)){
   localscores.df[,j] <- as.numeric(factor(localscores.df[,j], levels = c(
@@ -297,6 +305,7 @@ for(j in 1:ncol(localscores.df)){
 }
 wide.dat$mplocalscore <- rowMeans(localscores.df)
 
+#Coefficients of the different levels of local roots I believe 
 
 summary(mideff1a <- lm(localfeel.num ~ mplocalpercent, data = wide.dat))
 summary(mideff1b <- lm(localfeel.num ~ mpbornbredpercent, data = wide.dat))
@@ -604,6 +613,5 @@ ggplot(plotdf, aes(x = localroots, y = AMCE)) +
 ggsave("figureI2.png", dpi = 600, height = 4, width = 8)
 
 
-
-
-
+#I need to better understand the f tests but then also much of the function and 
+#for loop creation in order to actually be successful 

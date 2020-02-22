@@ -28,6 +28,9 @@ library(car)
 ### Create useful functions
 
 ## Function to get predicted levels for different treatment combinations
+
+#I am a tad confused, but I think this largely makes an sample to compare the actual to?
+
 predict.rob <- function(object, vcov,newdata){
   tt <- terms(object)
   if(missing(newdata)){ newdata <- x$model }
@@ -58,6 +61,8 @@ predict.rob <- function(object, vcov,newdata){
 
 ### Load in Study 1 data
 
+#Straightforward here
+
 d <- readRDS("study1data.rds")
 
 
@@ -65,6 +70,8 @@ d <- readRDS("study1data.rds")
 ### Balance and randomization checks (Appendix C)
 
 ### Check balance across treatment groups
+
+#Lots of plots for the covariated based upon the above data. 
 
 covariates <- subset(d, select = c(gender, agegrp, qualdegree, socgrade))
 
@@ -78,6 +85,8 @@ save_plot("figureC1.png", pcomb, dpi = 600, base_width = 8, base_height = 10)
 
 
 ### Randomization checks
+#Is this making sure that all of the differnent manners in which the MPs were created random? 
+#If so why did they not just randomize all possible combinations. 
 
 checkvars <- c("gender", "agegrp", "qualdegree", "socgrade")
 neatvars <- c("Gender", "Age group", "Education", "Social grade")
@@ -103,6 +112,7 @@ print(xtable(resdf, align = c("l", "l", "c", "c", "c"),
 
 
 ### Table 2
+##Table two in the article—all of the coefficents shown. Cool stuff.
 
 m1 <- lm(nickminusphil ~ localtreat*behtreatsimple, data = d)
 se1 <- sqrt(diag(vcovHC(m1)))
@@ -121,6 +131,7 @@ m4 <- lm(nickminusphil ~ localtreat*behtreat +
 se4 <- sqrt(diag(vcovHC(m4)))
 
 ## Output to table
+#I need to learn stargazer, but I dont think it is TOO hard. Seems straightforward. 
 filename <- paste0("table2.html")
 stargazer(mget(paste0("m",1:4)),
           se = mget(paste0("se",1:4)),
@@ -154,7 +165,7 @@ stargazer(mget(paste0("m",1:4)),
 
 
 ### Figure 1
-
+#I was very confused about B here especially because of the variability and the "no information" section being higher. 
 ## Avg treatment effect of local roots with const and westmihn. info
 out <- summary(margins(m4, vcov = vcovHC(m4), 
                        at = list(behtreat = c("No behavioural info", "Const. focus", "Westmin. focus"))))
@@ -189,6 +200,7 @@ p1 <- ggplot(margins.comb, aes(x = factor, y = AME)) +
 
 
 ## predlevels for m4
+#what is m4???
 newdf <- data.frame(expand.grid(localtreat = factor(c("No local roots", "Local roots"), 
                                                     levels = levels(d$localtreat)),
                                 behtreat = factor(levels(d$behtreat), levels = levels(d$behtreat))
@@ -211,6 +223,7 @@ predlevels.m4 <- newdf
 
 
 ## make predlevels plot
+#okay this is still the first plot. B still confuses me though. 
 predlevels.comb <- predlevels.m4
 predlevels.comb$behtreat.neat <- car:::recode(predlevels.comb$behtreat, 
                                               '"No behavioural info" = "Behavioral information treatment --\\nNo information (Vignettes 1-2)";
@@ -334,6 +347,7 @@ predlevels.m8 <- newdf
 ## Now combine marginal effects and predicted levels into 3 x 2 plot (column 1 = margins, column 2 = levels)
 
 # make margins plot
+#what is the repeated use of colons here? Base are bologna that I have gotta understand. 
 
 margins.comb <- margins.m8
 margins.comb$behtreat.neat <- car:::recode(margins.comb$behtreat, 
@@ -528,6 +542,7 @@ stargazer(mget(paste0("m",c(15:16, 13:14))),
 )
 
 ## Now print F-tests
+#Are these just for the p values or?
 
 print(anova(m15))
 
