@@ -1,0 +1,19 @@
+---
+title: "Milestone Three"
+author: "Samuel Lowry"
+date: "2/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(foreign)
+```
+
+I am currently planning on replicating <i> Why Friends and Neighbors? Explaining the Electoral Appeal of Local Roots </i> by Rosie Campbell, Philip Cowley, Nick Vivyan, and Markus Wagner in the <i>The Journal of Politics.</i>
+
+Here is a link to the <a href = "https://www-journals-uchicago-edu.ezp-prod1.hul.harvard.edu/doi/pdfplus/10.1086%2F703131"> article, </a> and a link to the <a href = "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/C15VOD"> data. </a>
+
+
+<a href = "https://github.com/SamuelLowry/gov1006-milestone-3"> Link to my repo. </a> 
